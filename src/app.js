@@ -15,7 +15,7 @@ const forecast = require("./utils/forecast");
 const publicDirectory = path.join(__dirname, "../public");
 const viewsPath = path.join(__dirname, "../templates/views");
 const partialsPath = path.join(__dirname, "../templates/partials");
-console.log(hbs.partials);
+// console.log(hbs.partials);
 
 app.set("view engine", "hbs");
 app.set("views", viewsPath);
@@ -49,7 +49,7 @@ app.get("/help", (req, res) => {
 });
 
 app.get("/products", (req, res) => {
-  console.log(req.query);
+  // console.log(req.query);
 
   if (!req.query.search) {
     return res.send({
@@ -73,15 +73,25 @@ app.get("/weather", (req, res) => {
         error,
       });
     }
-    forecast(latitude, longitude, (error, { temperature, humidity, wind }) => {
-      if (error) {
-        return res.send({
-          error,
+    forecast(
+      latitude,
+      longitude,
+      (error, { temperature, humidity, wind, pressure }) => {
+        if (error) {
+          return res.send({
+            error,
+          });
+        }
+
+        res.send({
+          temperature,
+          humidity,
+          wind,
+          address: req.query.address,
+          pressure,
         });
       }
-
-      res.send({ temperature, humidity, wind, address: req.query.address });
-    });
+    );
   });
 });
 

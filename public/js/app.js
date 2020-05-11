@@ -16,7 +16,7 @@ const getWeatherFor = (location) => {
       } else {
         console.log(data);
         parTitle.innerText = data.address;
-        parDetails.innerText = `It is currently ${data.temperature}, wind speed is ${data.wind}`;
+        parDetails.innerText = `It is currently ${data.temperature}, wind speed is ${data.wind}, pressure is ${data.pressure}`;
       }
     })
     .catch((error) => {
